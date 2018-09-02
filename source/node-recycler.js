@@ -52,31 +52,15 @@ const recycler = {
     }
     i = node.attributes !== undefined ? node.attributes.length : 0;
     while (i--) node.removeAttribute(node.attributes[i].name);
-    node.asmDomVNode = undefined;
-    if (node.asmDomRaws !== undefined) {
-      node.asmDomRaws.forEach((raw) => {
-        node[raw] = undefined;
+    if (node.wasmEvents !== undefined) {
+        Object.keys(node.wasmEvents).forEach((event) => {
+        node.removeEventListener(event, domApi.eventHandler, false);
       });
-      node.asmDomRaws = undefined;
-    }
-    if (node.asmDomEvents !== undefined) {
-      Object.keys(node.asmDomEvents).forEach((event) => {
-        node.removeEventListener(event, node.asmDomEvents[event], false);
-      });
-      node.asmDomEvents = undefined;
+        node.wasmEvents = undefined;
     }
     if (node.nodeValue !== null && node.nodeValue !== '') {
       node.nodeValue = '';
     }
-    Object.keys(node).forEach((key) => {
-      if (
-        key[0] !== 'a' || key[1] !== 's' || key[2] !== 'm' ||
-        key[3] !== 'D' || key[4] !== 'o' || key[5] !== 'm'
-      ) {
-        node[key] = undefined;
-      }
-    });
-
     // collect
     let name = node.nodeName;
     if (node.asmDomNS !== undefined) name += node.namespaceURI;
