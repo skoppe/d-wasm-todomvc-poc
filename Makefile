@@ -1,14 +1,9 @@
 watch: build
 	fswatch -o ./source | xargs -n1 make build
 
-# /Users/skoppe/dev/d/dscripten-tools/dmd-dscripten source/app.d source/api.d source/dom.d source/types.d --wasm -O3 -od/Users/skoppe/dev/d/wasm-dom/build/objs -ofgenerated/app -v --emcc="--js-library" --emcc="/Users/skoppe/dev/d/wasm-dom/generated/emglue.js"
-# cp generated/app.wasm dist/
-
-build: clean
-	DSCRIPTEN_TOOLCHAINS=/Users/skoppe/dev/d/dscripten-toolchain /Users/skoppe/dev/d/dscripten-tools/rdmd-dscripten --compiler=/Users/skoppe/dev/d/dscripten-tools/dmd-dscripten --wasm --release -od/Users/skoppe/dev/d/wasm-dom/build/objs -ofgenerated/app -O3 --emcc="-g2" --emcc="--js-library" --emcc="/Users/skoppe/dev/d/wasm-dom/generated/emglue.js" source/app.d || true
+build:
+	# DSCRIPTEN_TOOLCHAINS=/Users/skoppe/dev/d/dscripten-toolchain /Users/skoppe/dev/d/dscripten-tools/rdmd-dscripten --compiler=/Users/skoppe/dev/d/dscripten-tools/dmd-dscripten --wasm --release -od/Users/skoppe/dev/d/wasm-dom/build/objs -ofgenerated/app -O3 --emcc="-g2" --emcc="--js-library" --emcc="source/spa/js/emglue.js" source/app.d || true
+	DSCRIPTEN_TOOLCHAINS=/Users/skoppe/dev/d/dscripten-toolchain /Users/skoppe/dev/d/dscripten-tools/rdmd-dscripten --compiler=/Users/skoppe/dev/d/dscripten-tools/dmd-dscripten --wasm --release -od/Users/skoppe/dev/d/wasm-dom/build/objs -ofgenerated/app -O3 --emcc="--js-library" --emcc="source/spa/js/emglue.js" source/app.d || true
 	cp generated/app.tmp.wasm dist/
-	cat generated/dom-api.js generated/app > source/rt.js
-	echo "window.Module = Module;Module['postRun'].push(function(){Module.asm.__start();});" >> source/rt.js
-
-clean:
-# rm -rf ./build/objs && mkdir -p build/objs
+	cat source/spa/js/dom-api.js generated/app > generated/rt.js
+	echo "window.Module = Module;Module['postRun'].push(function(){Module.asm.__start();});" >> generated/rt.js

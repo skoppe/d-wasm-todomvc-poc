@@ -2,6 +2,9 @@ mergeInto(LibraryManager.library, {
     appendChild: function(parent, child) {
         domApi.nodes[parent].appendChild(domApi.nodes[child]);
     },
+    insertBefore: function(parent, child, sibling) {
+        domApi.nodes[parent].insertBefore(domApi.nodes[child], domApi.nodes[sibling]);
+    },
     addCss: function(cssRaw) {
         var style = document.createElement('style');
         style.type = 'text/css';
@@ -20,6 +23,10 @@ mergeInto(LibraryManager.library, {
         else
             nodes[node].classList.remove(decodeStr(classRaw));
     },
+    unmount: function(childPtr) {
+        var child = nodes[childPtr];
+        child.parentNode.removeChild(child);
+    },
     removeChild: function(childPtr) {
         var child = nodes[childPtr];
         child.parentNode.removeChild(child);
@@ -31,6 +38,12 @@ mergeInto(LibraryManager.library, {
     createElement: function(type) {
         return domApi.addPtr(document.createElement(getTagFromType(type)));
         // return domApi.createElement(type)
+    },
+    focus: function(nodePtr) {
+        nodes[nodePtr].focus();
+    },
+    setSelectionRange: function(nodePtr, start, end) {
+        nodes[nodePtr].setSelectionRange(start, end);
     },
     innerText: function(node,textRaw) {
         return domApi.innerText(node,textRaw);
@@ -71,8 +84,16 @@ mergeInto(LibraryManager.library, {
     setProperty: function(nodePtr, propRaw, value) {
         const node = nodes[nodePtr];
         const prop = decodeStr(propRaw);
-        if (node && node[prop] !== undefined)
+        if (node && node[prop] !== undefined) {
             node[prop] = decodeStr(value);
+        }
+    },
+    getPropertyBool: function(nodePtr, propRaw) {
+        const node = nodes[nodePtr];
+        const prop = decodeStr(propRaw);
+        if (!node || node[prop] === undefined)
+            return false;
+        return !!node[prop];
     },
     getProperty: function(resultRaw, nodePtr, propRaw) {
         const node = nodes[nodePtr];

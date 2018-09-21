@@ -1,4 +1,4 @@
-module types;
+module spa.types;
 
 pragma(LDC_no_moduleinfo);
 alias Handle = uint;
@@ -116,26 +116,20 @@ enum NodeType {
   wbr = 107
 }
 
+enum child;
+enum prop;
+enum callback;
+enum attr;
+struct connect(field...) {};
+struct visible(alias condition) {};
+
 enum ListenerType {
   click = 0,
   change = 1,
   input = 2,
-  keydown = 3
-}
-
-EventType toEventType(Node)(ListenerType listener) {
-  with (ListenerType) {
-    final switch(listener) {
-    case click:
-      return EventType.mouse;
-    case input:
-      return EventType.input;
-    case change:
-      return EventType.event;
-    case keydown:
-      return EventType.keyboard;
-      }
-  }
+  keydown = 3,
+  dblclick = 4,
+  blur = 5
 }
 
 enum EventType {
@@ -185,10 +179,3 @@ enum EventType {
   wheel = 43,
   event = 44
 }
-
-enum child;
-enum prop;
-enum callback;
-enum attr;
-struct connect(field...) {};
-enum eventemitter;

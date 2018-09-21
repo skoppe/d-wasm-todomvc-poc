@@ -1,4 +1,4 @@
-module css;
+module spa.css;
 
 pragma(LDC_no_moduleinfo);
 
@@ -10,8 +10,8 @@ import std.ascii : isUpper;
 import std.uni : asLowerCase;
 import std.algorithm : chunkBy, joiner, map;
 import std.conv : text;
-import hash;
-import types;
+import spa.ct;
+import spa.types;
 
 struct styleset(alias set) {};
 enum hover;

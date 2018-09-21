@@ -1,4 +1,13 @@
-module hash;
+module spa.ct;
+
+template getName(alias sym) {
+  enum getName = __traits(identifier, sym);
+}
+
+template getMember(alias T, string name) {
+  import std.meta : AliasSeq;
+  alias getMember = AliasSeq!(__traits(getMember, T, name))[0];
+}
 
 ubyte[7] toHash(string s) {
   import std.utf : byChar;

@@ -6,7 +6,7 @@ const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin
 const RawBundlerPlugin = require('webpack-raw-bundler');
 
 module.exports = {
-    entry: './source/rt.js',
+    entry: './generated/rt.js',
     mode: "production",
     plugins: [
       new HtmlWebpackPlugin({
@@ -31,5 +31,6 @@ module.exports = {
         alias: {
             fs: path.resolve(__dirname, 'stubs/fs.js')
         }
-    }
+    },
+    context: path.resolve(__dirname, '.')
 };
