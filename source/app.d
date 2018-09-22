@@ -290,11 +290,3 @@ struct Checkbox {
     this.emit(toggle);
   }
 }
-
-// Challanges:
-// - Optional items
-// - removing nodes
-// - input validations
-// - forms
-// - deallocate memory from allocString/arrays
-// - convert all attr to prop (and call proper function under the hood)
