@@ -1,3 +1,5 @@
+# WARNING: this project is superseded by [spasm](https://github.com/skoppe/spasm)
+
 # d-wasm-todomvc-poc
 
 This project is an **experiment** to see if plain D structures with annotated fields and member functions are versatile enough to build frontend applications with.
